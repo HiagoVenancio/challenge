@@ -78,13 +78,14 @@ fun CardItem(itemValue: HomeViewModel.PokemonsUiModel, action: (String) -> Unit)
             Modifier
                 .height(150.dp)
                 .fillMaxWidth()
+                .background(color = colorResource(id = R.color.third))
         ) {
             AsyncImage(
-                placeholder = painterResource(id = R.drawable.ic_launcher_foreground),
+                placeholder = painterResource(id = R.mipmap.icon_pokeball_round),
                 model = itemValue.image,
                 contentDescription = null,
                 modifier = Modifier.fillMaxSize(),
-                contentScale = ContentScale.Crop
+                contentScale = ContentScale.Fit
             )
             Column(
                 modifier = Modifier

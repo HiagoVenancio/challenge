@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="primary">#3B4CCA</color>
-    <color name="secondary">#B3A125</color>
-    <color name="third">#CC0101</color>
+    <color name="secondary">#F1E174</color>
+    <color name="third">#A2774C</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="grey">#C1BFC5</color>
     <color name="black_transparent">#99000000</color> <!-- 99 is for alpha and others pairs zero's are for R G B -->
+
+    <color name="fire">#CC2121</color>
+    <color name="grass">#84C62D</color>
+    <color name="flying">#677DA7</color>
+    <color name="poison">#40207D</color>
+    <color name="electric">#F5E023</color>
+    <color name="bug">#366018</color>
+    <color name="normal">#8A9285</color>
 
 </resources>

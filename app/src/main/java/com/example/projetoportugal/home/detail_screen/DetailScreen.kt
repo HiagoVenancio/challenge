@@ -4,13 +4,19 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -34,8 +40,62 @@ fun PokemonDetail(
             .fillMaxSize()
     ) {
         PokemonHeader(pokemon)
+        PokemonContent(pokemon, viewModel)
+    }
+}
 
+@Composable
+private fun PokemonContent(pokemon: HomeViewModel.PokemonsUiModel, viewModel: HomeViewModel) {
+    Column {
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = "Type(s): ",
+                modifier = Modifier,
+                color = colorResource(id = R.color.black)
+            )
+            pokemon.elementType.forEach {
+                Box(
+                    modifier = Modifier
+                        .size(25.dp)
+                        .clip(CircleShape)
+                        .padding(5.dp)
+                        .background(color = colorResource(id = it.color))
+                )
+            }
+        }
 
+        Row {
+            Text(
+                text = "Moves: ",
+                modifier = Modifier,
+                color = colorResource(id = R.color.black)
+            )
+            pokemon.moves.forEachIndexed { index, pokemonMoves ->
+                val maxMovesToShow = 2
+                val isLastToShow = index == maxMovesToShow
+                if (index <= maxMovesToShow) {
+                    Text(
+                        text = if (isLastToShow) pokemonMoves.move.name else "${pokemonMoves.move.name}, ",
+                        modifier = Modifier,
+                        color = colorResource(id = R.color.black)
+                    )
+                }
+            }
+        }
+
+        Text(
+            text = "Height: ${pokemon.height}",
+            modifier = Modifier,
+            color = colorResource(id = R.color.black)
+        )
+
+        Text(
+            text = "Weight: ${pokemon.weight}",
+            modifier = Modifier,
+            color = colorResource(id = R.color.black)
+        )
     }
 }
 
@@ -45,14 +105,14 @@ private fun PokemonHeader(pokemon: HomeViewModel.PokemonsUiModel) {
         modifier = Modifier
             .fillMaxWidth()
             .height(10.dp)
-            .background(color = colorResource(id = R.color.primary))
+            .background(color = colorResource(id = R.color.third))
     )
     Text(
         textAlign = TextAlign.Center,
-        text = pokemon.name,
+        text = "${pokemon.name}(${pokemon.id})",
         modifier = Modifier
             .fillMaxWidth()
-            .background(color = colorResource(id = R.color.primary)),
+            .background(color = colorResource(id = R.color.third)),
         fontWeight = FontWeight.W500,
         color = colorResource(id = R.color.white)
     )
@@ -60,7 +120,7 @@ private fun PokemonHeader(pokemon: HomeViewModel.PokemonsUiModel) {
         Modifier
             .height(200.dp)
             .fillMaxWidth()
-            .background(color = colorResource(id = R.color.primary))
+            .background(color = colorResource(id = R.color.third))
     ) {
         AsyncImage(
             placeholder = painterResource(id = R.drawable.ic_launcher_foreground),
@@ -68,8 +128,10 @@ private fun PokemonHeader(pokemon: HomeViewModel.PokemonsUiModel) {
             contentDescription = null,
             modifier = Modifier
                 .fillMaxSize(),
-            contentScale = ContentScale.Crop
+            contentScale = ContentScale.Fit
         )
 
     }
+
+
 }

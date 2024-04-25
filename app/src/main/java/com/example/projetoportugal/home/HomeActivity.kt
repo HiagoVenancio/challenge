@@ -36,7 +36,9 @@ class HomeActivity : ComponentActivity() {
                 Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
             }
 
-            ProjetoPortugalTheme() {
+            ProjetoPortugalTheme(
+                hasToolbar = true
+            ) {
                 NavHost(
                     modifier = Modifier.background(color = colorResource(id = R.color.secondary)),
                     navController = navController,
@@ -52,7 +54,6 @@ class HomeActivity : ComponentActivity() {
                                 navController.navigate("${MyScreens.Pokemon_Details.name}/${it}")
                             },
                         )
-
                     }
 
                     composable(
