@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">…</string>
+    <string name="title_activity_login">@string/app_name</string>
+    <string name="title_activity_home">@string/app_name</string>
+    <string name="firebase_client_id">677137592701-jrv93tbkp47kj0nk6h9l5tpdg4jg7261.apps.googleusercontent.com</string>
+    <string name="title_activity_login_google">@string/app_name</string>
+    <string name="title_activity_profile">ProfileActivity</string>
+</resources>

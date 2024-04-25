@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "677137592701",
+    "project_id": "projetoportugal-1cd26",
+    "storage_bucket": "projetoportugal-1cd26.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:677137592701:android:4838bf413c4bc12b939c14",
+        "android_client_info": {
+          "package_name": "com.example.projetoportugal"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "677137592701-jrv93tbkp47kj0nk6h9l5tpdg4jg7261.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBMpqbGfWU4o7TPBcegh6xXEiiobEU1sXI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "677137592701-jrv93tbkp47kj0nk6h9l5tpdg4jg7261.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
