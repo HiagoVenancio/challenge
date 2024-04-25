@@ -80,5 +80,14 @@ dependencies {
 
     implementation("io.coil-kt:coil-compose:2.5.0")
 
+    androidTestImplementation ("org.mockito:mockito-android:3.9.0")
+    testImplementation ("org.mockito:mockito-inline:5.2.0")
+
+    testImplementation("org.mockito:mockito-core:5.2.0")
+    testImplementation("com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0")
+
+    testImplementation ("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
+    androidTestImplementation ("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
+
 
 }
