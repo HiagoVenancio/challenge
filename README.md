@@ -1,4 +1,4 @@
-It was used MVVM, Koin, Coroutines and Compose to develop the challenge. 
+It was used MVVM, Koin, Coroutines and Compose to develop the challenge. I did some tests as well using JUnit and mockito.
 
 ---
 
