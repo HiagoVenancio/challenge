@@ -38,7 +38,8 @@ class HomeViewModel(
                                 elementType = pokemonType ?: emptyList(),
                                 moves = response?.moves ?: emptyList(),
                                 height = response?.height ?: 0,
-                                weight = response?.weight ?: 0
+                                weight = response?.weight ?: 0,
+                                isFavorite = false
                             )
                         )
                     }
@@ -67,7 +68,8 @@ class HomeViewModel(
         val height: Int = 0,
         val weight: Int = 0,
         val elementType: List<PokemonTypes> = emptyList(),
-        val moves: List<PokemonMoves> = emptyList()
+        val moves: List<PokemonMoves> = emptyList(),
+        val isFavorite: Boolean = false
     )
 
     enum class PokemonTypes(val color: Int) {

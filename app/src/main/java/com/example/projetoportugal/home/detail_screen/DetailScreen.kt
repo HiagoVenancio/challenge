@@ -2,6 +2,8 @@ package com.example.projetoportugal.home.detail_screen
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -11,12 +13,19 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -33,13 +42,13 @@ fun PokemonDetail(
     viewModel: HomeViewModel,
     name: String
 ) {
-
     val pokemon = viewModel.getPokemonByName(name)
     Column(
         modifier = Modifier
             .fillMaxSize()
     ) {
-        PokemonHeader(pokemon)
+        PokemonHeader(pokemon) {
+        }
         PokemonContent(pokemon, viewModel)
     }
 }
@@ -100,22 +109,53 @@ private fun PokemonContent(pokemon: HomeViewModel.PokemonsUiModel, viewModel: Ho
 }
 
 @Composable
-private fun PokemonHeader(pokemon: HomeViewModel.PokemonsUiModel) {
+private fun PokemonHeader(
+    pokemon: HomeViewModel.PokemonsUiModel,
+    onFavoriteClicked: (Boolean) -> Unit
+) {
+    var isFavorite by remember { mutableStateOf(false) }
+    val icon: Painter = if (isFavorite) {
+        painterResource(id = R.drawable.is_favorite)
+    } else {
+        painterResource(id = R.drawable.not_favorite)
+    }
+
     Spacer(
         modifier = Modifier
             .fillMaxWidth()
             .height(10.dp)
             .background(color = colorResource(id = R.color.third))
     )
-    Text(
-        textAlign = TextAlign.Center,
-        text = "${pokemon.name}(${pokemon.id})",
+    Row(
         modifier = Modifier
-            .fillMaxWidth()
-            .background(color = colorResource(id = R.color.third)),
-        fontWeight = FontWeight.W500,
-        color = colorResource(id = R.color.white)
-    )
+            .background(color = colorResource(id = R.color.third))
+            .fillMaxWidth(),
+        horizontalArrangement = Arrangement.Center,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            textAlign = TextAlign.Center,
+            text = "${pokemon.name}(${pokemon.id})",
+            modifier = Modifier.background(color = colorResource(id = R.color.third)),
+            fontWeight = FontWeight.W500,
+            color = colorResource(id = R.color.white)
+        )
+
+        Icon(
+            tint = colorResource(id = R.color.primary),
+            painter = icon,
+            contentDescription = "Favorite Icon",
+            modifier = Modifier
+                .size(40.dp)
+                .clickable {
+                    isFavorite = !isFavorite
+                    onFavoriteClicked(isFavorite)
+                }
+                .padding(8.dp)
+                .wrapContentSize(),
+        )
+    }
+
     Box(
         Modifier
             .height(200.dp)
@@ -130,8 +170,5 @@ private fun PokemonHeader(pokemon: HomeViewModel.PokemonsUiModel) {
                 .fillMaxSize(),
             contentScale = ContentScale.Fit
         )
-
     }
-
-
 }

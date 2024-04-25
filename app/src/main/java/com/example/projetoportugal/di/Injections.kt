@@ -11,7 +11,8 @@ object Injections {
 
     val appModule = module {
         single { RetrofitConfig.RetrofitClient.apiService }
-        single<HomeRepository> { HomeRepository(get()) }
+
+        single { HomeRepository(get()) }
 
         viewModel { BaseViewModel() }
         viewModel { HomeViewModel(get()) }
