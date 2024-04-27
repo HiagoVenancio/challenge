@@ -41,26 +41,6 @@ fun MainScreen(
     viewModel: HomeViewModel,
     itemClick: (String) -> Unit
 ) {
-    var isLoading by remember { mutableStateOf(true) }
-
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        if (isLoading) {
-            CircularProgressIndicator(
-                modifier = Modifier.width(64.dp),
-                color = MaterialTheme.colorScheme.secondary,
-                trackColor = MaterialTheme.colorScheme.surfaceVariant,
-            )
-        }
-    }
-
-    viewModel.pokemonState.collectAsState().value.isNotEmpty().let {
-        isLoading = false
-
-    }
     Column(modifier = Modifier.padding(bottom = 25.dp)) {
         ListScreen(viewModel, itemClick)
     }

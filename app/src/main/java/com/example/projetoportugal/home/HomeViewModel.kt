@@ -16,6 +16,15 @@ class HomeViewModel(
     private val _pokemonState: MutableStateFlow<List<PokemonsUiModel>> = MutableStateFlow(listOf())
     val pokemonState = _pokemonState
 
+    private val _screenState: MutableStateFlow<String> = MutableStateFlow("")
+    val screenState = _screenState
+
+    fun setCurrentScreen(screen: String) {
+        screenState.update {
+            screen
+        }
+    }
+
     fun getPokemons() {
         val pokemons = mutableListOf<PokemonsUiModel>()
 
