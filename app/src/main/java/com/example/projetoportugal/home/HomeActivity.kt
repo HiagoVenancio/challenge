@@ -48,7 +48,7 @@ class HomeActivity : ComponentActivity() {
 
             ProjetoPortugalTheme(
                 hasStartButton =
-                Triple(R.drawable.arrow_back, screenState) {
+                Triple(0, screenState) {
                     navController.popBackStack()
                 },
                 hasToolbar = true
