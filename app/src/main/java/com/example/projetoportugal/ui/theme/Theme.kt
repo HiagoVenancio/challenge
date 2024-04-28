@@ -61,10 +61,10 @@ fun ProjetoPortugalTheme(
     // Dynamic color is available on Android 12+
     dynamicColor: Boolean = true,
     hasToolbar: Boolean = false,
-    hasStartButton: Triple<Int, String, () -> Unit> = Triple(0, "", {}),
-    hasEndButton: Triple<Int, String, () -> Unit> = Triple(0, "", {}),
+    hasStartButton: () -> Unit = {},
     title: String? = null,
-    content: @Composable () -> Unit
+    screenState: String,
+    content: @Composable () -> Unit,
 ) {
     val colorScheme = when {
         dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
@@ -97,13 +97,13 @@ fun ProjetoPortugalTheme(
                             verticalAlignment = Alignment.CenterVertically,
 
                             ) {
-                            if (hasStartButton.second == MyScreens.Pokemon_Details.name) {
+                            if (screenState == MyScreens.Pokemon_Details.name) {
                                 Icon(
                                     modifier = Modifier
                                         .size(40.dp)
                                         .padding(end = 10.dp)
                                         .clickable {
-                                            hasStartButton.third.invoke()
+                                            hasStartButton.invoke()
                                         },
                                     painter = painterResource(id = R.drawable.arrow_back),
                                     contentDescription = "Image",

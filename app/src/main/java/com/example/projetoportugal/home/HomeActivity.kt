@@ -47,10 +47,10 @@ class HomeActivity : ComponentActivity() {
             }
 
             ProjetoPortugalTheme(
-                hasStartButton =
-                Triple(0, screenState) {
+                hasStartButton = {
                     navController.popBackStack()
                 },
+                screenState = screenState,
                 hasToolbar = true
             ) {
                 NavHost(

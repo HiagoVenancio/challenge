@@ -14,7 +14,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -82,18 +81,3 @@ fun AppBar(
     )
 }
 
-@Preview
-@Composable
-private fun PreviewHaiiloAppBar() {
-    ProjetoPortugalTheme {
-       AppBar(modifier = Modifier.fillMaxWidth(), "App bar")
-    }
-}
-
-@Preview
-@Composable
-private fun PreviewHaiiloAppBarWithActiveNext() {
-    ProjetoPortugalTheme {
-        AppBar(modifier = Modifier.fillMaxWidth(), "App bar", "Events", nextActive = true)
-    }
-}
