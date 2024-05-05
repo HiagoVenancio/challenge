@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -34,8 +35,7 @@ class HomeActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
-            actionBar?.hide()
+            SetUpScreen()
             val navController: NavHostController = rememberNavController()
             val viewModel: HomeViewModel by viewModel()
             val errorMessage = viewModel.errorMessage.collectAsState().value
@@ -84,7 +84,7 @@ class HomeActivity : ComponentActivity() {
                         MainScreen(
                             viewModel,
                             itemClick = {
-                                navController.navigate("${MyScreens.Pokemon_Details.name}/${it}")
+                                viewModel.navigateToPokemonDetails(it, navController)
                             },
                         )
                     }
@@ -107,5 +107,11 @@ class HomeActivity : ComponentActivity() {
                 }
             }
         }
+    }
+
+    @Composable
+    private fun SetUpScreen() {
+        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
+        actionBar?.hide()
     }
 }

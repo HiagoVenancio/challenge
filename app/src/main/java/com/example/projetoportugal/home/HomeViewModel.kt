@@ -1,7 +1,9 @@
 package com.example.projetoportugal.home
 
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavHostController
 import com.example.projetoportugal.BaseViewModel
+import com.example.projetoportugal.MyScreens
 import com.example.projetoportugal.R
 import com.example.projetoportugal.home.data.PokemonMoves
 import kotlinx.coroutines.Dispatchers.IO
@@ -34,23 +36,7 @@ class HomeViewModel(
 
                     data.results.forEach { pokemon ->
                         val response = repository.getPokemon(pokemon.name)
-
-                        val pokemonType = response?.types?.map {
-                            PokemonTypes.getByName(it.type.name)
-                        }
-
-                        pokemons.add(
-                            PokemonsUiModel(
-                                id = response?.id ?: 0,
-                                name = pokemon.name,
-                                image = response?.sprites?.back_default ?: "",
-                                elementType = pokemonType ?: emptyList(),
-                                moves = response?.moves ?: emptyList(),
-                                height = response?.height ?: 0,
-                                weight = response?.weight ?: 0,
-                                isFavorite = false
-                            )
-                        )
+                        pokemons.addAll(response)
                     }
 
                     _pokemonState.update {
@@ -68,6 +54,10 @@ class HomeViewModel(
             it.name == name
         }
         return pokemon ?: PokemonsUiModel()
+    }
+
+    fun navigateToPokemonDetails(pokemonName: String, navController: NavHostController) {
+        navController.navigate("${MyScreens.Pokemon_Details.name}/$pokemonName")
     }
 
     data class PokemonsUiModel(
