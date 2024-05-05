@@ -56,10 +56,8 @@ class HomeActivity : ComponentActivity() {
                 NavHost(
                     modifier = Modifier.background(color = colorResource(id = R.color.secondary)),
                     navController = navController,
-                    startDestination = if (pokemons.isNotEmpty()) MyScreens.Home_Main.name else MyScreens.Loading.name,
+                    startDestination = MyScreens.Home_Main.name,
                 ) {
-                    viewModel.getPokemons()
-
                     composable(
                         route = MyScreens.Loading.name
                     ) {
@@ -73,7 +71,7 @@ class HomeActivity : ComponentActivity() {
                                 color = MaterialTheme.colorScheme.secondary,
                                 trackColor = MaterialTheme.colorScheme.surfaceVariant,
                             )
-                            if (pokemons.isNotEmpty()) navController.navigate(MyScreens.Home_Main.name)
+                            // if (pokemons.isNotEmpty()) navController.navigate(MyScreens.Home_Main.name)
                         }
                     }
 
@@ -81,6 +79,7 @@ class HomeActivity : ComponentActivity() {
                         route = MyScreens.Home_Main.name,
                     ) {
                         viewModel.setCurrentScreen(MyScreens.Home_Main.name)
+                        //viewModel.getPokemons()
                         MainScreen(
                             viewModel,
                             itemClick = {
@@ -94,15 +93,18 @@ class HomeActivity : ComponentActivity() {
                         arguments = listOf(
                             navArgument(name = "pokemon") {
                                 type = NavType.StringType
+
                             },
                         )
-                    ) {
-                        viewModel.setCurrentScreen(MyScreens.Pokemon_Details.name)
-                        val name = it.arguments?.getString("pokemon")
-                        PokemonDetail(
-                            viewModel,
-                            "$name"
-                        )
+                    ) { backStackEntry ->
+                        val pokemon =
+                            backStackEntry.arguments?.getString("pokemon")
+                        if (pokemon != null) {
+                            PokemonDetail(
+                                viewModel,
+                                pokemon
+                            )
+                        }
                     }
                 }
             }

@@ -1,22 +1,22 @@
 package com.example.projetoportugal.home
 
-import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
+import androidx.paging.PagingData
 import com.example.projetoportugal.BaseViewModel
 import com.example.projetoportugal.MyScreens
 import com.example.projetoportugal.R
-import com.example.projetoportugal.home.data.PokemonMoves
-import kotlinx.coroutines.Dispatchers.IO
+import com.example.projetoportugal.home.models.PokemonsUiModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 
 class HomeViewModel(
     private val repository: HomeRepository
 ) : BaseViewModel() {
 
-    private val _pokemonState: MutableStateFlow<List<PokemonsUiModel>> = MutableStateFlow(listOf())
-    val pokemonState = _pokemonState
+    private val _pokemonState = MutableStateFlow<PagingData<PokemonsUiModel>>(PagingData.empty())
+    val pokemonState: StateFlow<PagingData<PokemonsUiModel>> = _pokemonState
+
 
     private val _screenState: MutableStateFlow<String> = MutableStateFlow("")
     val screenState = _screenState
@@ -27,49 +27,11 @@ class HomeViewModel(
         }
     }
 
-    fun getPokemons() {
-        val pokemons = mutableListOf<PokemonsUiModel>()
+    fun getPokemons() = repository.getPokemonsPagination()
 
-        viewModelScope.launch(IO) {
-            try {
-                repository.getPokemons()?.let { data ->
-
-                    data.results.forEach { pokemon ->
-                        val response = repository.getPokemon(pokemon.name)
-                        pokemons.addAll(response)
-                    }
-
-                    _pokemonState.update {
-                        pokemons
-                    }
-                }
-            } catch (e: Exception) {
-                setErrorMessage("Error retrieving pokemons")
-            }
-        }
+    fun navigateToPokemonDetails(pokemonName: PokemonsUiModel, navController: NavHostController) {
+        navController.navigate("${MyScreens.Pokemon_Details.name}/${pokemonName.name}")
     }
-
-    fun getPokemonByName(name: String): PokemonsUiModel {
-        val pokemon = _pokemonState.value.find {
-            it.name == name
-        }
-        return pokemon ?: PokemonsUiModel()
-    }
-
-    fun navigateToPokemonDetails(pokemonName: String, navController: NavHostController) {
-        navController.navigate("${MyScreens.Pokemon_Details.name}/$pokemonName")
-    }
-
-    data class PokemonsUiModel(
-        val id: Int = 0,
-        val name: String = "",
-        val image: String = "",
-        val height: Int = 0,
-        val weight: Int = 0,
-        val elementType: List<PokemonTypes> = emptyList(),
-        val moves: List<PokemonMoves> = emptyList(),
-        val isFavorite: Boolean = false
-    )
 
     enum class PokemonTypes(val color: Int) {
         FIRE(color = R.color.fire),

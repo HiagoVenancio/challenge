@@ -32,29 +32,36 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.AsyncImage
 import com.example.projetoportugal.R
 import com.example.projetoportugal.home.HomeViewModel
+import com.example.projetoportugal.home.models.PokemonsUiModel
 
 @SuppressLint("SetJavaScriptEnabled")
 @Composable
 fun PokemonDetail(
     viewModel: HomeViewModel,
-    name: String
+    pokemonId: String
 ) {
-    val pokemon = viewModel.getPokemonByName(name)
+  /*  val pokemonsPage = viewModel.getPokemons().collectAsLazyPagingItems()
+    val pokemon = pokemonsPage.itemSnapshotList.items.find {
+        it.name == pokemonId
+    }
     Column(
         modifier = Modifier
             .fillMaxSize()
     ) {
-        PokemonHeader(pokemon) {
+        pokemon?.let {
+            PokemonHeader(pokemon) {
+            }
+            PokemonContent(pokemon)
         }
-        PokemonContent(pokemon, viewModel)
-    }
+    }*/
 }
 
 @Composable
-private fun PokemonContent(pokemon: HomeViewModel.PokemonsUiModel, viewModel: HomeViewModel) {
+private fun PokemonContent(pokemon: PokemonsUiModel) {
     Column {
         Row(
             verticalAlignment = Alignment.CenterVertically
@@ -110,7 +117,7 @@ private fun PokemonContent(pokemon: HomeViewModel.PokemonsUiModel, viewModel: Ho
 
 @Composable
 private fun PokemonHeader(
-    pokemon: HomeViewModel.PokemonsUiModel,
+    pokemon: PokemonsUiModel,
     onFavoriteClicked: (Boolean) -> Unit
 ) {
     var isFavorite by remember { mutableStateOf(false) }

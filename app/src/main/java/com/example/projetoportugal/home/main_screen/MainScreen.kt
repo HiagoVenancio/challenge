@@ -9,21 +9,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material3.Card
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.ListItemDefaults.colors
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -32,14 +24,16 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.AsyncImage
 import com.example.projetoportugal.R
 import com.example.projetoportugal.home.HomeViewModel
+import com.example.projetoportugal.home.models.PokemonsUiModel
 
 @Composable
 fun MainScreen(
     viewModel: HomeViewModel,
-    itemClick: (String) -> Unit
+    itemClick: (PokemonsUiModel) -> Unit
 ) {
     Column(modifier = Modifier.padding(bottom = 25.dp)) {
         ListScreen(viewModel, itemClick)
@@ -47,9 +41,8 @@ fun MainScreen(
 }
 
 @Composable
-fun ListScreen(viewModel: HomeViewModel, itemClick: (String) -> Unit) {
-    val listState = viewModel.pokemonState.collectAsState().value
-
+fun ListScreen(viewModel: HomeViewModel, itemClick: (PokemonsUiModel) -> Unit) {
+    val pokemonsPage = viewModel.getPokemons().collectAsLazyPagingItems()
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -58,13 +51,14 @@ fun ListScreen(viewModel: HomeViewModel, itemClick: (String) -> Unit) {
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),
         ) {
-            items(listState.size) { item ->
+            items(pokemonsPage.itemCount) { item ->
                 ListItem(
                     colors = colors(containerColor = colorResource(id = android.R.color.transparent)),
                     headlineContent = {
-                        val itemValue = listState[item]
-                        CardItem(itemValue, itemClick)
-
+                        val itemValue = pokemonsPage[item]
+                        itemValue?.let {
+                            CardItem(itemValue, itemClick)
+                        }
                     },
                 )
             }
@@ -73,12 +67,12 @@ fun ListScreen(viewModel: HomeViewModel, itemClick: (String) -> Unit) {
 }
 
 @Composable
-fun CardItem(itemValue: HomeViewModel.PokemonsUiModel, action: (String) -> Unit) {
+fun CardItem(itemValue: PokemonsUiModel, action: (PokemonsUiModel) -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .clickable {
-                action.invoke(itemValue.name)
+                action.invoke(itemValue)
             }
     ) {
         Box(
@@ -102,7 +96,7 @@ fun CardItem(itemValue: HomeViewModel.PokemonsUiModel, action: (String) -> Unit)
             ) {
                 Text(
                     textAlign = TextAlign.Center,
-                    text = itemValue.name,
+                    text = itemValue?.name.toString(),
                     modifier = Modifier
                         .fillMaxWidth()
                         .background(color = colorResource(id = R.color.primary)),
